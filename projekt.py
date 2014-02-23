@@ -1,13 +1,15 @@
 # vim:fileencoding=utf8:
 from sympy import *
+# Vi har to uafhængige variable x og y.
 x, y = symbols('x y')
+# Omregning mellem grader og radianer.
 DEG = 180/pi
 
 print("Opgave 1")
 print("========\n")
 
-def circle(x0, y0, r):
-    return Eq((x - x0)**2 + (y - y0)**2, r**2)
+def circle(x_0, y_0, r):
+    return Eq(r**2, (x - x_0)**2 + (y - y_0)**2)
 
 print("15^2 = x^2 + y^2")
 print("")
@@ -33,7 +35,14 @@ print("   A = (%s, %s)" % (a[x], a[y]))
 print("   B = (%s, %s)" % (b[x], b[y]))
 print("")
 
-o, = filter(lambda p: p[y] > a[y], solve((circle(a[x], a[y], r), circle(b[x], b[y], r))))
+# solve() returnerer en liste med to elementer [{x:x_1, y:y_1}, {x:x_2, y:y_2}]
+# der angiver de to skæringer mellem cirklerne.
+# filter() returnerer en liste med ét element [{x:x_0, y:y_0}]
+# som er det skæringspunkt, vi er interesserede i.
+# Notationen "o," pakker listen ud og henter elementet indeni.
+o, = filter(lambda p: p[y] > a[y],
+        solve((circle(a[x], a[y], r),
+               circle(b[x], b[y], r))))
 
 print("Ud fra dette bestemmes cirklens centrum, idet dette ligger over punktet A:")
 print(" x_0 = %s = %s" % (o[x], N(o[x])))
